@@ -1,20 +1,36 @@
 package com.rajkishorbgp.smarthomecontrol
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.rajkishorbgp.smarthomecontrol.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Toolbar setup
+        setSupportActionBar(binding.toolbar)
+        binding.toolbar.title = "Smart Home Control"
+
+        // Default Fragment
+        supportFragmentManager.beginTransaction().replace(R.id.flFragment, HomeFragment()).commit()
+
+        // Bottom Navigation Listener (Kotlin style)
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> supportFragmentManager.beginTransaction().replace(R.id.flFragment,
+                    HomeFragment()).commit()
+                R.id.profile -> supportFragmentManager.beginTransaction().replace(R.id.flFragment,
+                    RoomsFragment()).commit()
+                R.id.settings -> supportFragmentManager.beginTransaction().replace(R.id.flFragment,
+                    HistoryFragment()).commit()
+            }
+            true
         }
     }
 }

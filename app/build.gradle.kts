@@ -35,6 +35,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures{
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -46,4 +50,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //Bottom Navigation bar
+    implementation(libs.material.v1120)
+    //toolbar
+    implementation ("com.google.android.material:material:1.12.0")
 }
